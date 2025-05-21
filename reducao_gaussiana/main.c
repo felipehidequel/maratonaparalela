@@ -52,7 +52,7 @@ void validacao(float **A, float **B, int n) {
 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
-      if (fabs(A[i][j] - A[i][j]) > EPSILON) {
+      if (fabs(A[i][j] - B[i][j]) > EPSILON) {
         ok = 0;
         break;
       }
