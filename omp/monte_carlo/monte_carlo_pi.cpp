@@ -1,8 +1,6 @@
 #include <iostream>
 #include <omp.h>
 
-// #define RAND_MAX * 2 - 1
-
 typedef long long int ll;
 
 double monte_carlo(ll num_lancamentos) {
@@ -31,9 +29,11 @@ double monte_carlo(ll num_lancamentos) {
 int main(int argc, char *argv[]) {
   ll num_lancamentos = std::atoi(argv[1]);
   double s, e;
+  double saida;
 
   s = omp_get_wtime();
-  std::cout << "" << monte_carlo(num_lancamentos) << std::endl;
+  saida = monte_carlo(num_lancamentos);
+  std::cout << "Estimativa de pi: " << saida << std::endl;
   e = omp_get_wtime();
 
   std::cout << "Elapsed time: " << e - s << std::endl;

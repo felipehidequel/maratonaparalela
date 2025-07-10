@@ -1,12 +1,3 @@
-/*
-    Use OpenMP para implementar um programa produtor-consumidor no qual algumas
-    threads são produtoras e outras são consumidoras. As produtoras leem o texto
-   de uma coleção de arquivos, um por produtor. Elas inserem linhas de texto em
-   uma única fila compartilhada. Os consumidores pegam as linhas do texto e as
-   tokenizam. Tokens são "palavras" separadas por espaço em branco. Quando uma
-   consumidora encontra um token, ela o grava no stdout.
-
-*/
 #include "fila.h"
 #include <omp.h>
 #include <stdio.h>

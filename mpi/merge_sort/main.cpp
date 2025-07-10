@@ -1,3 +1,12 @@
+/*
+
+Escreva um programa que possa ser usado para determinar o custo de alterar a
+distribuição de uma estrutura de dados distribuída. Quanto tempo leva para mudar
+de uma distribuição em bloco de um vetor para uma distribuição cíclica? Quanto
+tempo leva a redistribuição reversa?
+
+*/
+
 #include <iostream>
 #include <mpi.h>
 
@@ -95,8 +104,11 @@ int main(int argc, char *argv[]) {
   MPI_Comm comm = MPI_COMM_WORLD;
   int *vetor;
   int *vetor_local;
-
+  double s, e;
   MPI_Init(&argc, &argv);
+
+  MPI_Barrier(comm);
+  s = MPI_Wtime();
   MPI_Comm_rank(comm, &rank);
   MPI_Comm_size(comm, &size);
 
@@ -110,7 +122,7 @@ int main(int argc, char *argv[]) {
   }
 
   qsort(vetor_local, local_n, sizeof(int), compara);
-  MPI_Barrier(comm);
+  // MPI_Barrier(comm);
 
   if (rank != 0) {
     MPI_Send(&local_n, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
@@ -143,6 +155,12 @@ int main(int argc, char *argv[]) {
   }
 
   delete[] vetor_local;
+
+  e = MPI_Wtime();
+  double local_elapsed = e - s;
+  double elpased;
+
+  MPI_Reduce(&local_elapsed, &elpased, 1, MPI_DOUBLE, MPI_MAX, 0, comm);
   MPI_Finalize();
 
   return 0;

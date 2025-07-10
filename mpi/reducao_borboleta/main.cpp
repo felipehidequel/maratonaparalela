@@ -22,7 +22,7 @@ int reducao_global(MPI_Comm comm, int size, int rank, int &valor) {
   int parceiro;
 
   while (salto < size) {
-    parceiro = rank ^ salto;
+    parceiro = rank ^ salto; // revisar isso aqui rsr
 
     if (parceiro < size) {
 
