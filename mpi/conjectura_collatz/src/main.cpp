@@ -14,10 +14,15 @@
 
 #include "Master.hpp"
 #include "Worker.hpp"
+#include <iostream>
 #include <mpi.h>
 
 int main(int argc, char **argv) {
+  double start, end;
+
   MPI_Init(&argc, &argv);
+  MPI_Barrier(MPI_COMM_WORLD);
+  start = MPI_Wtime();
 
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -30,6 +35,16 @@ int main(int argc, char **argv) {
     Worker w;
     w.run();
   }
+
+  end = MPI_Wtime();
+  double local_time = end - start;
+  double final_time;
+
+  MPI_Reduce(&local_time, &final_time, 1, MPI_DOUBLE, MPI_MAX, 0,
+             MPI_COMM_WORLD);
+
+  if (rank == 0)
+    std::cout << "ELapsed Time: " << final_time << std::endl;
 
   MPI_Finalize();
   return 0;
