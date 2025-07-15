@@ -1,0 +1,11 @@
+#!/bin/bash
+
+make
+
+NUM_PROC=$1
+BIN_COUNT=$2
+MIN_MEAS=$3
+MAX_MEAS=$4
+DATA_COUNT=$5
+
+mpirun -n $NUM_PROC ./histogram_p $BIN_COUNT $MIN_MEAS $MAX_MEAS $DATA_COUNT
