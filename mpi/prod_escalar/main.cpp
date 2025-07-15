@@ -32,22 +32,12 @@ void getInput(size_t &n, int rank, int size, MPI_Comm comm, int argc,
 }
 
 ll reduction(int size, int rank, MPI_Comm comm, int local_result) {
-  int salto = 1;
-  int parceiro;
-  int valor;
-  ll global_result = local_result;
-  while (salto < size) {
-    parceiro = rank ^ salto;
-    if ((rank & salto) == 0) {
-      if (parceiro < size) {
-        MPI_Recv(&valor, 1, MPI_INT, parceiro, 0, comm, MPI_STATUS_IGNORE);
-        global_result += valor;
-      }
-    } else {
-      MPI_Send(&local_result, 1, MPI_INT, parceiro, 0, comm);
-    }
-    salto <<= 1;
-  }
+  ll global_result = 0;
+
+  ll local_ll_result = local_result;
+
+  MPI_Reduce(&local_ll_result, &global_result, 1, MPI_LONG_LONG, MPI_SUM, 0,
+             comm);
 
   return global_result;
 }
